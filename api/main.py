@@ -4,7 +4,6 @@ import pandas as pd
 
 app = FastAPI()
 
-# Carica il modello e gli encoder
 model = pickle.load(open("notebook/model.pkl", "rb"))
 label_encoders = pickle.load(open("notebook/label_encoders.pkl", "rb"))
 
@@ -15,18 +14,13 @@ def root():
 @app.post("/predict")
 async def predict(request: Request):
     data = await request.json()
+    input_df = pd.DataFrame([data])
 
-    if isinstance(data, dict):  # singolo record
-        df = pd.DataFrame([data])
-    else:  # lista di record
-        df = pd.DataFrame(data)
-
-    # encoding
-    for col in df.columns:
+    for col in input_df.columns:
         if col in label_encoders:
-            df[col] = label_encoders[col].transform(df[col])
+            input_df[col] = label_encoders[col].transform(input_df[col])
 
-    preds = model.predict(df)
-    pred_labels = label_encoders["class"].inverse_transform(preds)
+    pred_encoded = model.predict(input_df)[0]
+    pred_label = label_encoders["class"].inverse_transform([pred_encoded])[0]
 
-    return {"predictions": pred_labels.tolist()}
+    return {"prediction": pred_label}
