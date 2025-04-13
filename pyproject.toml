@@ -2,17 +2,17 @@
 name = "hackathon"
 version = "0.1.0"
 description = ""
-authors = ["mariasilvia"]
+authors = ["mariasilvia","saraperi"]
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.11"
+fastapi = "^0.110.0"
+uvicorn = { extras = ["standard"], version = "^0.27.1" }
 pandas = "^2.2.3"
 scikit-learn = "^1.6.1"
 joblib = "^1.4.2"
-streamlit = "^1.44.1"
-gradio = "^5.25.0"
-uvicorn = {extras = ["standard"], version = "^0.27.1"}
 
 [tool.poetry.group.dev.dependencies]
 ipykernel = "^6.29.5"
