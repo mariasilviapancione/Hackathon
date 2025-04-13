@@ -5,7 +5,7 @@ import requests
 import pandas as pd
 
 
-df = pd.read_csv("..data/mushrooms.csv")
+df = pd.read_csv("../data/mushrooms.csv")
 X = df.drop("class", axis=1)
 
 
